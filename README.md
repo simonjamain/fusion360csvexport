@@ -1,4 +1,6 @@
 # fusion360csvexport
+![Fusion360 parameters window location](/doc/fusion360csvexport.png)
+
 Export one stl file each row of a csv file containing a list of parameters values.
 This allows you to generate many variants of the same parametric design in one go !
 
