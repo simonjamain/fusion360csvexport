@@ -39,8 +39,9 @@ def run(context):
                 parametersNames = next(csvReader)
                 
                 nbVariants = countCSVRows(csvFileDialog.filename) - 1
+
                 exportFolderDialog = ui.createFolderDialog()
-                exportFolderDialog.title = str(nbVariants) + " variants found, select an export directory"
+                exportFolderDialog.title = str(nbVariants) + " parameter sets have been found, select an export directory"
                 
                 if exportFolderDialog.showDialog() == adsk.core.DialogResults.DialogOK:
                     
@@ -58,10 +59,17 @@ def run(context):
 
                                 if index == 0 and parameterName == "fileName":
                                     fileName = parameterCell
+                                
+                                elif index == 0 and parameterName != "fileName":
+                                    raise Exception('Process Canceled !\nThe first column of your csv file must be a fileName parameter and the values should be a unique filename for each set of parameters.\nNote: you can also have another fileName attribute column and they won\'t interfear.')
+                                
+                                elif currentDesign.userParameters.itemByName(parameterName) is None :
+                                    raise Exception('Process Canceled !\nParameter "' + parameterName + '" does not exists in fusion, please check the parameters names of the fusion project and match them to the csv file')
+                                
                                 else:
                                     currentDesignParameter = currentDesign.userParameters.itemByName(parameterName)
                                     currentDesignParameter.expression = parameterCell
-                            
+
                             fullFileName = exportFolderDialog.folder + "/" + fileName
 
                             stlExportOptions = exportManager.createSTLExportOptions(currentDesign.rootComponent, fullFileName)
@@ -69,6 +77,8 @@ def run(context):
         
                             exportManager.execute(stlExportOptions)
                         ui.messageBox("export success")
+                    except Exception as e:
+                        ui.messageBox(str(e))
                     finally:             
                         updateParameters(currentDesign.userParameters,previousParameterExpressions)
 
