@@ -35,6 +35,8 @@ Clone or download & uncompress this repository somewhere on your disk.
 
 Add the script to your list of custom scripts as showed below:
 
+*Important note: the script will not ask for permission to overwrite existing files with the same names!*
+
 ![Scripts and Add-Ins menu Location](/doc/fusion360%20scripts%20menu.png)
 ![Adding a new script](/doc/fusion360%20add%20custom%20script.png)
 

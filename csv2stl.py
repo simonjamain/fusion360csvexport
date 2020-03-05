@@ -42,12 +42,14 @@ def run(context):
 
                 exportFolderDialog = ui.createFolderDialog()
                 exportFolderDialog.title = str(nbVariants) + " parameter sets have been found, select an export directory"
-                
+
                 if exportFolderDialog.showDialog() == adsk.core.DialogResults.DialogOK:
                     
                     exportManager = currentDesign.exportManager                        
                     
                     previousParameterExpressions = saveParameterExpressions(currentDesign.userParameters)
+
+                    exportedFiles = 0
                     try:
                         for parametersRow in csvReader:
                             
@@ -76,11 +78,12 @@ def run(context):
                             stlExportOptions.sendToPrintUtility = False
         
                             exportManager.execute(stlExportOptions)
-                        ui.messageBox("export success")
+                            exportedFiles = exportedFiles + 1
                     except Exception as e:
                         ui.messageBox(str(e))
                     finally:             
-                        updateParameters(currentDesign.userParameters,previousParameterExpressions)
+                        updateParameters(currentDesign.userParameters,previousParameterExpressions) # restore initial parameters
+                        ui.messageBox("Successfully exported " + str(exportedFiles) + " files in " + exportFolderDialog.folder)
 
     except:
         if ui:
