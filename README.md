@@ -4,6 +4,8 @@
 Export one stl file each row of a csv file containing a list of parameters values.
 This allows you to generate many variants of the same parametric design in one go !
 
+To illustrate, all files [of this project](https://www.thingiverse.com/thing:4318404/files) has been generated in one go using this script.
+
 ## CSV structure
 *Note: an example csv file is located in /example folder to illustrate the folowing instructions.*
 
